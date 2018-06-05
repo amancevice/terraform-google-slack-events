@@ -7,3 +7,15 @@
 
 # .tfvars files
 *.tfvars
+
+# project
+build/
+dist/
+
+# node
+**/node_modules/*
+package-lock.json
+
+# secrets
+client_secret.json
+config.json

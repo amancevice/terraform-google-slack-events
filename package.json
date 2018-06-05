@@ -1,0 +1,29 @@
+{
+  "name": "slack-event-publisher",
+  "version": "0.0.1",
+  "description": "Publish Slack events to Pub/Sub",
+  "main": "index.js",
+  "dependencies": {
+    "googleapis": "^29.0.0"
+  },
+  "devDependencies": {
+    "gulp": "^4.0.0",
+    "gulp-file": "^0.4.0",
+    "gulp-zip": "^4.1.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/amancevice/terraform-google-slack-event-publisher.git"
+  },
+  "keywords": [
+    "Slack",
+    "Google Cloud",
+    "Terraform"
+  ],
+  "author": "smallweirdnumber",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/amancevice/terraform-google-slack-event-publisher/issues"
+  },
+  "homepage": "https://github.com/amancevice/terraform-google-slack-event-publisher"
+}
