@@ -1,5 +1,6 @@
 output "version" {
-  value = "${local.version}"
+  description = "Slack event publisher module version"
+  value       = "${local.version}"
 }
 
 output "pubsub_topic" {
