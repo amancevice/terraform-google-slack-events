@@ -6,19 +6,29 @@ Send Slack events to Google Cloud Pub/Sub using Cloud Functions.
 
 Download the credentials file from Google Cloud for your service account and rename to `client_secret.json`.
 
-In the same directory as the credentials file, create a `terraform.tfvars` file and fill in (at a minimum) the following variables:
+Create a `terraform.tfvars` file with your access keys & custom configuration:
+
 
 ```terraform
-bucket_name        = "<cloud-storage-bucket-name>"
-project            = "<cloud-project-id>"
-verification_token = "<slack-verification-token>"
+# terraform.tfvars
+
+# Cloud Storage bucket for storing function source
+bucket_name = "<cloud-storage-bucket>"
+
+# Cloud Project ID
+project = "<cloud-project-123456>"
+
+# Slack verification token
+verification_token = "<verification-token>"
 ```
 
 Then, create a `terraform.tf` file with the following contents (filling in the module version):
 
 ```terraform
+# terraform.tf
+
 provider "google" {
-  credentials = "${file("client_secret.json")}"
+  credentials = "${file("${var.client_secret}")}"
   project     = "${var.project}"
   region      = "${var.region}"
   version     = "~> 1.13"
@@ -26,8 +36,9 @@ provider "google" {
 
 module "slack_event_publisher" {
   source             = "amancevice/slack-event-publisher/google"
-  version            = "<version>"
+  version            = "<module-version>"
   bucket_name        = "${var.bucket_name}"
+  client_secret      = "${var.client_secret}"
   project            = "${var.project}"
   verification_token = "${var.verification_token}"
 }
@@ -36,12 +47,17 @@ variable "bucket_name" {
   description = "Cloud Storage bucket for storing Cloud Function code archives."
 }
 
+variable "client_secret" {
+  description = "Google Cloud client secret JSON filepath."
+  default     = "client_secret.json"
+}
+
 variable "project" {
   description = "The ID of the project to apply any resources to."
 }
 
 variable "region" {
-  description = "Cloud region name."
+  description = "The region to operate under, if not specified by a given resource."
   default     = "us-central1"
 }
 
@@ -50,16 +66,24 @@ variable "verification_token" {
 }
 
 output "pubsub_topic" {
-  value = "${module.slack_event_publisher.pubsub_topic}"
+  description = "Name of Pub/Sub topic for Slack events."
+  value       = "${module.slack_event_publisher.pubsub_topic}"
 }
 
 output "event_publisher_url" {
-  value = "${module.slack_event_publisher.event_publisher_url}"
+  description = "Endpoint for event subscriptions to configure in Slack."
+  value       = "${module.slack_event_publisher.event_publisher_url}"
 }
 ```
 
-Approve & apply the infrastructure with:
+In a terminal window, initialize the state:
 
+```bash
+terraform init
 ```
+
+Then review & apply the changes
+
+```bash
 terraform apply
 ```
