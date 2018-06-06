@@ -9,10 +9,6 @@ variable "project" {
   description = "The ID of the project to apply any resources to."
 }
 
-variable "service_account" {
-  description = "An email address that represents a service account. For example, my-other-app@appspot.gserviceaccount.com."
-}
-
 variable "verification_token" {
   description = "Slack verification token."
 }
@@ -20,11 +16,6 @@ variable "verification_token" {
 /**
  * Optional Variables
  */
-variable "bucket_storage_class" {
-  description = "Bucket storage class."
-  default     = "MULTI_REGIONAL"
-}
-
 variable "bucket_prefix" {
   description = "Prefix for Cloud Storage bucket."
   default     = ""

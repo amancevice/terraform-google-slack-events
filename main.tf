@@ -7,7 +7,7 @@ provider "template" {
 }
 
 locals {
-  version = "0.0.4"
+  version = "0.0.5"
 }
 
 // Config template
@@ -47,22 +47,9 @@ data "archive_file" "archive" {
   }
 }
 
-// Cloud Storage Bucket for storing Cloud Function archives
-resource "google_storage_bucket" "bucket" {
-  name          = "${var.bucket_name}"
-  storage_class = "${var.bucket_storage_class}"
-}
-
-// Add service acct as writer to Cloud Storage Bucket
-resource "google_storage_bucket_iam_member" "member" {
-  bucket = "${google_storage_bucket.bucket.name}"
-  role   = "roles/storage.objectCreator"
-  member = "serviceAccount:${var.service_account}"
-}
-
 // Event Publisher Cloud Storage archive
 resource "google_storage_bucket_object" "archive" {
-  bucket = "${google_storage_bucket.bucket.name}"
+  bucket = "${var.bucket_name}"
   name   = "${var.bucket_prefix}${var.function_name}-${local.version}.zip"
   source = "${data.archive_file.archive.output_path}"
 }
@@ -77,7 +64,7 @@ resource "google_cloudfunctions_function" "function" {
   name                  = "${var.function_name}"
   description           = "Slack event publisher"
   available_memory_mb   = "${var.memory}"
-  source_archive_bucket = "${google_storage_bucket.bucket.name}"
+  source_archive_bucket = "${var.bucket_name}"
   source_archive_object = "${google_storage_bucket_object.archive.name}"
   trigger_http          = true
   timeout               = "${var.timeout}"
