@@ -15,7 +15,7 @@ service_account    = "<service-account-email>"
 verification_token = "<slack-verification-token>"
 ```
 
-Then, create a `terraform.tf` file with the following contents (filling in the module version):
+Then, create a [`terraform.tf`](./src/terraform.tf) file with the following contents (filling in the module version):
 
 ```terraform
 provider "google" {
@@ -29,8 +29,6 @@ module "slack_event_publisher" {
   source             = "amancevice/slack-event-publisher/google"
   version            = "<version>"
   bucket_name        = "${var.bucket_name}"
-  client_secret      = "${file("client_secret.json")}"
-  config             = "${file("config.tpl")}"
   project            = "${var.project}"
   service_account    = "${var.service_account}"
   verification_token = "${var.verification_token}"
