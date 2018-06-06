@@ -25,7 +25,7 @@ gulp.task('build', () => {
 // Dist artifact
 gulp.task('dist', () => {
   return gulp.src(['build/**'], {dot: true})
-    .pipe(zip(`slack-drive-${pkg.version}.zip`))
+    .pipe(zip(`slack-event-publisher-${pkg.version}.zip`))
     .pipe(gulp.dest('dist'));
 });
 

@@ -5,14 +5,6 @@ variable "bucket_name" {
   description = "Cloud Storage bucket for storing Cloud Function code archives."
 }
 
-variable "client_secret" {
-  description = "Google Cloud client secret JSON content."
-}
-
-variable "config" {
-  description = "Rendered Slack Drive `config.tpl` JSON content."
-}
-
 variable "project" {
   description = "The ID of the project to apply any resources to."
 }
@@ -36,6 +28,11 @@ variable "bucket_storage_class" {
 variable "bucket_prefix" {
   description = "Prefix for Cloud Storage bucket."
   default     = ""
+}
+
+variable "client_secret" {
+  description = "Google Cloud client secret JSON filename."
+  default     = "client_secret.json"
 }
 
 variable "pubsub_topic" {

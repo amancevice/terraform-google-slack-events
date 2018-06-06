@@ -65,3 +65,9 @@ output "event_publisher_url" {
   value = "${module.slack_event_publisher.event_publisher_url}"
 }
 ```
+
+Approve & apply the infrastructure with:
+
+```
+terraform apply
+```

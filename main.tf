@@ -7,12 +7,12 @@ provider "template" {
 }
 
 locals {
-  version = "0.0.1"
+  version = "0.0.3"
 }
 
 // Config template
 data "template_file" "config" {
-  template = "${var.config}"
+  template = "${file("${path.module}/src/config.tpl")}"
 
   vars {
     pubsub_topic       = "${var.pubsub_topic}"
@@ -37,12 +37,12 @@ data "archive_file" "archive" {
   }
 
   source {
-    content  = "${var.config}"
+    content  = "${data.template_file.config.rendered}"
     filename = "config.json"
   }
 
   source {
-    content  = "${var.client_secret}"
+    content  = "${file("${var.client_secret}")}"
     filename = "client_secret.json"
   }
 }

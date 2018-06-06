@@ -5,12 +5,3 @@ script:
 - gulp
 before_deploy:
 - gulp travis
-deploy:
-- provider: releases
-  api_key:
-    secure: ""
-  file: dist/slack-drive-${TRAVIS_TAG}.zip
-  skip_cleanup: true
-  on:
-    repo: amancevice/slack-drive
-    tags: true

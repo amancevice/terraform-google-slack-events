@@ -6,10 +6,9 @@ provider "google" {
 }
 
 module "slack_event_publisher" {
-  source = "/Users/amancevice/smallweirdnumber/terraform/terraform-google-slack-event-publisher"
+  source             = "amancevice/slack-event-publisher/google"
+  version            = "0.0.3"
   bucket_name        = "${var.bucket_name}"
-  client_secret      = "${file("client_secret.json")}"
-  config             = "${file("config.tpl")}"
   project            = "${var.project}"
   service_account    = "${var.service_account}"
   verification_token = "${var.verification_token}"
@@ -23,17 +22,17 @@ variable "project" {
   description = "The ID of the project to apply any resources to."
 }
 
-variable "region" {
-  description = "Cloud region name."
-  default     = "us-central1"
-}
-
 variable "service_account" {
   description = "An email address that represents a service account. For example, my-other-app@appspot.gserviceaccount.com."
 }
 
 variable "verification_token" {
   description = "Slack verification token."
+}
+
+variable "region" {
+  description = "Cloud region name."
+  default     = "us-central1"
 }
 
 output "pubsub_topic" {
