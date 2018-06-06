@@ -1,6 +1,6 @@
 {
   "name": "slack-event-publisher",
-  "version": "0.0.7",
+  "version": "0.0.8",
   "description": "Publish Slack events to Pub/Sub",
   "main": "index.js",
   "dependencies": {
