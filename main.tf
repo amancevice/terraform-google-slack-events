@@ -24,7 +24,7 @@ data "template_file" "config" {
 // Event Publisher archive
 data "archive_file" "archive" {
   type        = "zip"
-  output_path = "${path.module}/dist/event-publisher-${local.version}.zip"
+  output_path = "${path.module}/dist/${var.function_name}-${local.version}.zip"
 
   source {
     content  = "${file("${path.module}/src/index.js")}"
