@@ -25,7 +25,7 @@ data "archive_file" "archive" {
   output_path = "${path.module}/dist/${var.function_name}-${local.version}.zip"
 
   source {
-    content  = "${file("${var.client_secret}")}"
+    content  = "${var.client_secret}"
     filename = "client_secret.json"
   }
 

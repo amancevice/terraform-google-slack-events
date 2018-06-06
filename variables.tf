@@ -5,6 +5,10 @@ variable "bucket_name" {
   description = "Cloud Storage bucket for storing Cloud Function code archives."
 }
 
+variable "client_secret" {
+  description = "Google Cloud client secret JSON."
+}
+
 variable "project" {
   description = "The ID of the project to apply any resources to."
 }
@@ -19,11 +23,6 @@ variable "verification_token" {
 variable "bucket_prefix" {
   description = "Prefix for Cloud Storage bucket."
   default     = ""
-}
-
-variable "client_secret" {
-  description = "Google Cloud client secret JSON filename."
-  default     = "client_secret.json"
 }
 
 variable "pubsub_topic" {
