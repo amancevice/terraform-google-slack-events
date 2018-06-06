@@ -1,15 +1,13 @@
 {
   "name": "slack-event-publisher",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "description": "Publish Slack events to Pub/Sub",
   "main": "index.js",
   "dependencies": {
     "googleapis": "^29.0.0"
   },
   "devDependencies": {
-    "gulp": "^4.0.0",
-    "gulp-file": "^0.4.0",
-    "gulp-zip": "^4.1.0"
+    "gulp": "^4.0.0"
   },
   "repository": {
     "type": "git",
