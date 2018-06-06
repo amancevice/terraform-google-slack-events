@@ -37,7 +37,7 @@ variable "function_name" {
 
 variable "memory" {
   description = "Memory for Slack event listener."
-  default     = 128
+  default     = 512
 }
 
 variable "region" {
