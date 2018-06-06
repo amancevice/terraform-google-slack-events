@@ -10,7 +10,6 @@ locals {
   version = "0.0.7"
 }
 
-// Config template
 data "template_file" "config" {
   template = "${file("${path.module}/src/config.tpl")}"
 
@@ -21,7 +20,6 @@ data "template_file" "config" {
   }
 }
 
-// Event Publisher archive
 data "archive_file" "archive" {
   type        = "zip"
   output_path = "${path.module}/dist/${var.function_name}-${local.version}.zip"
@@ -47,19 +45,16 @@ data "archive_file" "archive" {
   }
 }
 
-// Event Publisher Cloud Storage archive
 resource "google_storage_bucket_object" "archive" {
   bucket = "${var.bucket_name}"
   name   = "${var.bucket_prefix}${var.function_name}-${local.version}.zip"
   source = "${data.archive_file.archive.output_path}"
 }
 
-// Pub/Sub Topic for processing events
 resource "google_pubsub_topic" "topic" {
   name = "${var.pubsub_topic}"
 }
 
-// Event Publisher Cloud Function
 resource "google_cloudfunctions_function" "function" {
   name                  = "${var.function_name}"
   description           = "Slack event publisher"
