@@ -25,13 +25,8 @@ data "archive_file" "archive" {
   output_path = "${path.module}/dist/${var.function_name}-${local.version}.zip"
 
   source {
-    content  = "${file("${path.module}/src/index.js")}"
-    filename = "index.js"
-  }
-
-  source {
-    content  = "${file("${path.module}/package.json")}"
-    filename = "package.json"
+    content  = "${file("${var.client_secret}")}"
+    filename = "client_secret.json"
   }
 
   source {
@@ -40,8 +35,13 @@ data "archive_file" "archive" {
   }
 
   source {
-    content  = "${file("${var.client_secret}")}"
-    filename = "client_secret.json"
+    content  = "${file("${path.module}/src/index.js")}"
+    filename = "index.js"
+  }
+
+  source {
+    content  = "${file("${path.module}/package.json")}"
+    filename = "package.json"
   }
 }
 
