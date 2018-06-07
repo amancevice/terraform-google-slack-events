@@ -7,14 +7,7 @@ provider "template" {
 }
 
 locals {
-  version = "0.2.0"
-
-  package {
-    name = "slack-interactive-component"
-    dependencies {
-      googleapis = "^29.0.0"
-    }
-  }
+  version = "0.2.1"
 }
 
 data "template_file" "config" {
@@ -23,6 +16,14 @@ data "template_file" "config" {
   vars {
     project            = "${var.project}"
     verification_token = "${var.verification_token}"
+  }
+}
+
+data "template_file" "package" {
+  template = "${file("${path.module}/src/package.tpl")}"
+
+  vars {
+    version = "${local.version}"
   }
 }
 
@@ -46,7 +47,7 @@ data "archive_file" "archive" {
   }
 
   source {
-    content  = "${jsonencode("${local.package}")}"
+    content  = "${data.template_file.package.rendered}"
     filename = "package.json"
   }
 }
