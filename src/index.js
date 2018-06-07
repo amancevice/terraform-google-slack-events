@@ -48,7 +48,7 @@ function publishEvent(req) {
   // Publish event to PubSub if it is an `event_callback`
   if (req.body.type === 'event_callback') {
     return pubsub.projects.topics.publish({
-        topic: `projects/${config.google.project}/topics/${req.body.event.type}`;,
+        topic: `projects/${config.google.project}/topics/${req.body.event.type}`,
         resource: {
           messages: [
             {
