@@ -41,11 +41,6 @@ variable "memory" {
   default     = 512
 }
 
-variable "region" {
-  description = "The region to operate under, if not specified by a given resource."
-  default     = "us-central1"
-}
-
 variable "timeout" {
   description = "Timeout in seconds for Slack event listener."
   default     = 10
