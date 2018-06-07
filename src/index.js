@@ -1,7 +1,6 @@
 const config = require('./config.json');
 const service = require('./client_secret.json');
 const { google } = require('googleapis');
-const topic = `projects/${config.google.project}/topics/${config.google.pubsub_topic}`;
 const pubsub = google.pubsub({
     version: 'v1',
     auth: new google.auth.JWT(
@@ -49,7 +48,7 @@ function publishEvent(req) {
   // Publish event to PubSub if it is an `event_callback`
   if (req.body.type === 'event_callback') {
     return pubsub.projects.topics.publish({
-        topic: topic,
+        topic: `projects/${config.google.project}/topics/${req.body.event.type}`;,
         resource: {
           messages: [
             {

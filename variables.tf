@@ -25,9 +25,10 @@ variable "bucket_prefix" {
   default     = ""
 }
 
-variable "pubsub_topic" {
-  description = "Pub/Sub topic name."
-  default     = "slack-events"
+variable "event_types" {
+  description = "Pub/Sub topic names for handing events."
+  type        = "list"
+  default     = []
 }
 
 variable "function_name" {

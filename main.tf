@@ -7,14 +7,20 @@ provider "template" {
 }
 
 locals {
-  version = "0.1.1"
+  version = "0.2.0"
+
+  package {
+    name = "slack-interactive-component"
+    dependencies {
+      googleapis = "^29.0.0"
+    }
+  }
 }
 
 data "template_file" "config" {
   template = "${file("${path.module}/src/config.tpl")}"
 
   vars {
-    pubsub_topic       = "${var.pubsub_topic}"
     project            = "${var.project}"
     verification_token = "${var.verification_token}"
   }
@@ -40,7 +46,7 @@ data "archive_file" "archive" {
   }
 
   source {
-    content  = "${file("${path.module}/package.json")}"
+    content  = "${jsonencode("${local.package}")}"
     filename = "package.json"
   }
 }
@@ -49,10 +55,6 @@ resource "google_storage_bucket_object" "archive" {
   bucket = "${var.bucket_name}"
   name   = "${var.bucket_prefix}${var.function_name}-${local.version}.zip"
   source = "${data.archive_file.archive.output_path}"
-}
-
-resource "google_pubsub_topic" "topic" {
-  name = "${var.pubsub_topic}"
 }
 
 resource "google_cloudfunctions_function" "function" {
@@ -68,4 +70,9 @@ resource "google_cloudfunctions_function" "function" {
   labels {
     deployment-tool = "terraform"
   }
+}
+
+resource "google_pubsub_topic" "topic" {
+  count = "${length("${var.event_types}")}"
+  name  = "${element("${var.event_types}", count.index)}"
 }

@@ -41,6 +41,12 @@ module "slack_event_publisher" {
   client_secret      = "${var.client_secret}"
   project            = "${var.project}"
   verification_token = "${var.verification_token}"
+  event_types        = [
+    "channel_rename",
+    "group_rename",
+    "member_joined_channel",
+    "member_left_channel"
+  ]
 }
 
 variable "bucket_name" {
@@ -65,14 +71,14 @@ variable "verification_token" {
   description = "Slack verification token."
 }
 
-output "pubsub_topic" {
-  description = "Name of Pub/Sub topic for Slack events."
-  value       = "${module.slack_event_publisher.pubsub_topic}"
+output "pubsub_topics" {
+  description = "Pub/Sub topics created."
+  value       = "${module.slack_event_publisher.pubsub_topics}"
 }
 
-output "event_publisher_url" {
-  description = "Endpoint for event subscriptions to configure in Slack."
-  value       = "${module.slack_event_publisher.event_publisher_url}"
+output "request_url" {
+  description = "Slack event Request URL."
+  value       = "${module.slack_event_publisher.request_url}"
 }
 ```
 
