@@ -24,9 +24,23 @@ variable "event_types" {
 }
 
 // Cloud Function
+variable "description" {
+  description = "Description of the function."
+  default     = "Slack event publisher"
+}
+
 variable "function_name" {
   description = "Cloud Function for publishing events from Slack to Pub/Sub."
   default     = "slack-event-publisher"
+}
+
+variable "labels" {
+  description = "A set of key/value label pairs to assign to the function."
+  type        = "map"
+
+  default {
+    deployment-tool = "terraform"
+  }
 }
 
 variable "memory" {

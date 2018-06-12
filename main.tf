@@ -7,7 +7,7 @@ provider "template" {
 }
 
 locals {
-  version = "0.4.0"
+  version = "0.4.1"
 }
 
 data "template_file" "config" {
@@ -59,18 +59,15 @@ resource "google_storage_bucket_object" "archive" {
 }
 
 resource "google_cloudfunctions_function" "function" {
-  name                  = "${var.function_name}"
-  description           = "Slack event publisher"
   available_memory_mb   = "${var.memory}"
+  description           = "${var.description}"
+  entry_point           = "publishEvent"
+  labels                = "${var.labels}"
+  name                  = "${var.function_name}"
   source_archive_bucket = "${var.bucket_name}"
   source_archive_object = "${google_storage_bucket_object.archive.name}"
-  trigger_http          = true
   timeout               = "${var.timeout}"
-  entry_point           = "publishEvent"
-
-  labels {
-    deployment-tool = "terraform"
-  }
+  trigger_http          = true
 }
 
 resource "google_pubsub_topic" "topic" {
