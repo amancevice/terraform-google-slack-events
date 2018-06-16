@@ -7,7 +7,7 @@ provider "template" {
 }
 
 locals {
-  version = "0.4.2"
+  version = "0.5.0"
 }
 
 data "google_client_config" "cloud" {
@@ -33,11 +33,6 @@ data "template_file" "package" {
 data "archive_file" "archive" {
   type        = "zip"
   output_path = "${path.module}/dist/${var.function_name}-${local.version}.zip"
-
-  source {
-    content  = "${var.client_secret}"
-    filename = "client_secret.json"
-  }
 
   source {
     content  = "${data.template_file.config.rendered}"

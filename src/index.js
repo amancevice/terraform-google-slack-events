@@ -1,14 +1,6 @@
 const config = require('./config.json');
-const service = require('./client_secret.json');
-const { google } = require('googleapis');
-const pubsub = google.pubsub({
-    version: 'v1',
-    auth: new google.auth.JWT(
-      service.client_email,
-      './client_secret.json',
-      null,
-      ['https://www.googleapis.com/auth/pubsub'])
-  });
+const PubSub = require('@google-cloud/pubsub');
+const pubsub = new PubSub({projectId: config.google.project});
 
 /**
  * Log event info.
@@ -47,18 +39,11 @@ function publishEvent(req) {
 
   // Publish event to PubSub if it is an `event_callback`
   if (req.body.type === 'event_callback') {
-    return pubsub.projects.topics.publish({
-        topic: `projects/${config.google.project}/topics/${req.body.event.type}`,
-        resource: {
-          messages: [
-            {
-              data: Buffer.from(JSON.stringify(req.body)).toString('base64')
-            }
-          ]
-        }
-      })
+    return pubsub.topic(req.body.event.type)
+      .publisher()
+      .publish(Buffer.from(JSON.stringify(req.body)))
       .then((pub) => {
-        console.log(`PUB/SUB ${JSON.stringify(pub.data)}`);
+        console.log(`PUB/SUB ${pub}`);
         return req;
       });
   }
@@ -79,7 +64,7 @@ function sendResponse(req, res) {
     res.json({challenge: req.body.challenge});
   } else {
     console.log('OK');
-    res.send('OK');
+    res.send();
   }
   return req;
 }
