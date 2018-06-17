@@ -8,7 +8,6 @@ Download the credentials file from Google Cloud for your service account and ren
 
 Create a `terraform.tfvars` file with your access keys & custom configuration:
 
-
 ```terraform
 # terraform.tfvars
 
@@ -28,24 +27,20 @@ Then, create a `terraform.tf` file with the following contents (filling in the m
 # terraform.tf
 
 provider "google" {
-  credentials = "${file("${var.client_secret}")}"
+  credentials = "${file("client_secret.json")}"
   project     = "${var.project}"
-  region      = "${var.region}"
-  version     = "~> 1.13"
+  region      = "us-central1"
 }
 
-module "slack_event_publisher" {
-  source             = "amancevice/slack-event-publisher/google"
-  version            = "<module-version>"
+module "slack_events" {
+  source             = "amancevice/slack-events/google"
   bucket_name        = "${var.bucket_name}"
-  client_secret      = "${var.client_secret}"
+  client_secret      = "${file("client_secret.json")}"
   project            = "${var.project}"
   verification_token = "${var.verification_token}"
   event_types        = [
-    "channel_rename",
-    "group_rename",
-    "member_joined_channel",
-    "member_left_channel"
+    # Slack event types to subscribe to
+    # https://api.slack.com/events
   ]
 }
 
@@ -53,18 +48,8 @@ variable "bucket_name" {
   description = "Cloud Storage bucket for storing Cloud Function code archives."
 }
 
-variable "client_secret" {
-  description = "Google Cloud client secret JSON filepath."
-  default     = "client_secret.json"
-}
-
 variable "project" {
   description = "The ID of the project to apply any resources to."
-}
-
-variable "region" {
-  description = "The region to operate under, if not specified by a given resource."
-  default     = "us-central1"
 }
 
 variable "verification_token" {
