@@ -36,7 +36,6 @@ module "slack_events" {
   source             = "amancevice/slack-events/google"
   bucket_name        = "${var.bucket_name}"
   client_secret      = "${file("client_secret.json")}"
-  project            = "${var.project}"
   verification_token = "${var.verification_token}"
   event_types        = [
     # Slack event types to subscribe to
