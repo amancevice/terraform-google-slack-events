@@ -1,8 +1,3 @@
-output "version" {
-  description = "Slack event publisher module version"
-  value       = "${local.version}"
-}
-
 output "request_url" {
   description = "Slack event Request URL."
   value       = "${google_cloudfunctions_function.function.https_trigger_url}"

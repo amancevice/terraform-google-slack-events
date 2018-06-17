@@ -1,4 +1,4 @@
-# Slack Event Publisher
+# Slack Event Listener/Publisher
 
 Send Slack events to Google Cloud Pub/Sub using Cloud Functions.
 
@@ -21,7 +21,7 @@ project = "<cloud-project-123456>"
 verification_token = "<verification-token>"
 ```
 
-Then, create a `terraform.tf` file with the following contents (filling in the module version):
+Then, create a `terraform.tf` file with the following contents:
 
 ```terraform
 # terraform.tf

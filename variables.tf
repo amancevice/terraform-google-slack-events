@@ -9,6 +9,7 @@ variable "client_secret" {
 
 variable "project" {
   description = "The ID of the project to apply any resources to."
+  default     = ""
 }
 
 // Slack
@@ -45,7 +46,7 @@ variable "labels" {
 
 variable "memory" {
   description = "Memory for Slack event listener."
-  default     = 512
+  default     = 256
 }
 
 variable "timeout" {
