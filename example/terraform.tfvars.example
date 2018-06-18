@@ -1,0 +1,12 @@
+google_project = "my-project-123456"
+google_region  = "us-central1"
+
+bucket_name = "my-slack-events-bucket"
+
+slack_events_verification_token = "myVerificationToken"
+slack_events_event_types        = [
+  "channel_rename",
+  "group_rename",
+  "member_joined_channel",
+  "member_left_channel"
+]

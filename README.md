@@ -6,65 +6,28 @@ Send Slack events to Google Cloud Pub/Sub using Cloud Functions.
 
 Download the credentials file from Google Cloud for your service account and rename to `client_secret.json`.
 
-Create a `terraform.tfvars` file with your access keys & custom configuration:
+Then, create a `main.tf` file with the following contents:
 
 ```terraform
-# terraform.tfvars
-
-# Cloud Storage bucket for storing function source
-bucket_name = "<cloud-storage-bucket>"
-
-# Cloud Project ID
-project = "<cloud-project-123456>"
-
-# Slack verification token
-verification_token = "<verification-token>"
-```
-
-Then, create a `terraform.tf` file with the following contents:
-
-```terraform
-# terraform.tf
+# main.tf
 
 provider "google" {
   credentials = "${file("client_secret.json")}"
-  project     = "${var.project}"
+  project     = "<your-project-id>"
   region      = "us-central1"
 }
 
 module "slack_events" {
   source             = "amancevice/slack-events/google"
-  bucket_name        = "${var.bucket_name}"
-  client_secret      = "${file("client_secret.json")}"
-  verification_token = "${var.verification_token}"
+  bucket_name        = "<your-cloud-storage-bucket>"
+  verification_token = "<slack-verification-token>"
   event_types        = [
-    # Slack event types to subscribe to
-    # https://api.slack.com/events
+    # See available event types at https://api.slack.com/events
   ]
 }
-
-variable "bucket_name" {
-  description = "Cloud Storage bucket for storing Cloud Function code archives."
-}
-
-variable "project" {
-  description = "The ID of the project to apply any resources to."
-}
-
-variable "verification_token" {
-  description = "Slack verification token."
-}
-
-output "pubsub_topics" {
-  description = "Pub/Sub topics created."
-  value       = "${module.slack_event_publisher.pubsub_topics}"
-}
-
-output "request_url" {
-  description = "Slack event Request URL."
-  value       = "${module.slack_event_publisher.request_url}"
-}
 ```
+
+_Note: this is not a secure way of storing your verification token. See the [example](./example) for more secure/detailed deployment._
 
 In a terminal window, initialize the state:
 
